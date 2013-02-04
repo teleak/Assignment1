@@ -28,16 +28,14 @@ head(data, n=5)
 apply(data, 2, function(col) length(which(is.na(col)))) ### shows count of NA values by column
 apply(data, 2, function(col) length(which(col == ""))) ### shows count of blank values by column
 (has.na<-data[!(complete.cases(data)),]) ### rows with NA data 
-### looking at data in columns
-
-sapply(data[ ,c(1, 2, 9, 11:13)], summary, na.rm=TRUE)
-
 ### some cleanup
-str(data$interest)
 data$interest<-as.numeric(sub("%", "", data$interest)) ### remove percent sign on interest
-deb
-
+data$debts<-as.numeric(sub("%", "", data$debts)) ### remove percent sign on interest
+### looking at data in columns
+sapply(data[ ,c(1:3, 6, 9, 11:13)], summary, na.rm=TRUE)
+#### look at factor data
 head(data, n=3)
-
+sapply(data[ ,c(4, 5, 7, 8, 10, 14)], unique)
+data$length<-as.numeric(sub(" months", "", data$length)) ### strip "months" text off of months column
 
 

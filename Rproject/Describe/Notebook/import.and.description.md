@@ -149,11 +149,20 @@ apply(data, 2, function(col) length(which(col == "")))  ### shows count of blank
 ## 101515 685-689       NA       NA        NA < 1 year
 ```
 
-
-### Some deeper description 
+### clean percent signs from interest and debt columns; months from length column
 
 ```r
-sapply(data[, c(1, 2, 9, 11:13)], summary, na.rm = TRUE)
+### some cleanup
+data$interest <- as.numeric(sub("%", "", data$interest))  ### remove percent sign on interest
+data$debts <- as.numeric(sub("%", "", data$debts))  ### remove percent sign on interest
+data$length <- as.numeric(sub(" months", "", data$length))
+```
+
+
+### looking at quantitative qualitative data summaries
+
+```r
+sapply(data[, c(1:3, 6, 9, 11:13)], summary, na.rm = TRUE)
 ```
 
 ```
@@ -164,6 +173,14 @@ sapply(data[, c(1, 2, 9, 11:13)], summary, na.rm = TRUE)
 ## $loaned
 ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 ##       0    6000   10000   12000   16000   35000 
+## 
+## $interest
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    5.42   10.20   13.10   13.10   15.80   24.90 
+## 
+## $debts
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    0.00    9.75   15.30   15.40   20.70   34.90 
 ## 
 ## $income
 ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
@@ -180,5 +197,44 @@ sapply(data[, c(1, 2, 9, 11:13)], summary, na.rm = TRUE)
 ## $inquiries
 ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
 ##   0.000   0.000   0.000   0.906   1.000   9.000       2
+```
+
+```r
+sapply(data[, c(4, 5, 7, 8, 10, 14)], unique)
+```
+
+```
+## $length
+## [1] 36 60
+## 
+## $purpose
+##  [1] debt_consolidation credit_card        other             
+##  [4] moving             car                vacation          
+##  [7] home_improvement   house              major_purchase    
+## [10] educational        medical            wedding           
+## [13] small_business     renewable_energy  
+## 14 Levels: car credit_card debt_consolidation ... wedding
+## 
+## $state
+##  [1] SC TX CA KS NJ CT MA LA FL DC OH AL AZ GA WV NH VA NY MD HI PA WA IL
+## [24] NC WI SD AK DE MN MO RI CO NM MI OK NV UT AR KY VT OR IA MT IN WY MS
+## 46 Levels: AK AL AR AZ CA CO CT DC DE FL GA HI IA IL IN KS KY LA MA ... WY
+## 
+## $home
+## [1] MORTGAGE RENT     OWN      OTHER    NONE    
+## Levels: MORTGAGE NONE OTHER OWN RENT
+## 
+## $fico
+##  [1] 735-739 715-719 690-694 695-699 670-674 720-724 705-709 685-689
+##  [9] 665-669 725-729 730-734 740-744 760-764 675-679 765-769 780-784
+## [17] 830-834 660-664 710-714 785-789 750-754 700-704 680-684 755-759
+## [25] 790-794 810-814 775-779 815-819 745-749 805-809 800-804 655-659
+## [33] 770-774 795-799 640-644 645-649 820-824 650-654
+## 38 Levels: 640-644 645-649 650-654 655-659 660-664 665-669 ... 830-834
+## 
+## $employed
+##  [1] < 1 year  2 years   5 years   9 years   3 years   10+ years 8 years  
+##  [8] 6 years   1 year    7 years   4 years   n/a      
+## 12 Levels: < 1 year 1 year 10+ years 2 years 3 years 4 years ... n/a
 ```
 
