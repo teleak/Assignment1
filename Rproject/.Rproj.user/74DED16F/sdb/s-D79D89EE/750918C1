@@ -1,0 +1,16 @@
+{
+    "contents" : "Data Import and Description \n=============================\n\n### Import data \n```{r, import.raw}\nraw<-read.csv(\"/Users/Teleak/Desktop/RCourse/DataAnalysis/AnalysisAssignment1/Rproject/WorkingData/loansData.csv\")\n```\n### Some descriptives of the data frame 'raw.'\n```{r, describe.df}\nnames(raw)\n```\n### Some munging -- making names easier to type\n```{r, rename.cols}\nnew.names<-c('requested', 'loaned', 'interest', 'length', 'purpose', 'debts', 'state', 'home', 'income', 'fico', 'o.credit', 'r.credit', 'inquiries', 'employed')\nold.names<-names(raw)\n(names.convert<-as.data.frame(cbind(old.names, new.names)))\ndata<-raw\nnames(data)<-new.names\nnames(data)\n```\n### Some more data description with easier names (helps avoid confusion later)\n```{r, describeII}\ndim(data)\nstr(data)\nhead(data, n=5)\napply(data, 2, function(col) length(which(is.na(col)))) ### shows count of NA values by column\napply(data, 2, function(col) length(which(col == \"\"))) ### shows count of blank values by column\n(has.na<-data[!(complete.cases(data)),]) ### rows with NA data \n```\n\n### Some deeper description \n```{r, describeIII,}\nsapply(data[ ,c(1, 2, 9, 11:13)], summary, na.rm=TRUE)\n```\n",
+    "created" : 1359953842006.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "876869182",
+    "id" : "750918C1",
+    "lastKnownWriteTime" : 1359958660,
+    "path" : "~/Desktop/RCourse/DataAnalysis/AnalysisAssignment1/Rproject/Describe/Notebook/import.and.description.rmd",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_markdown"
+}

@@ -1,0 +1,34 @@
+Data Import and Description 
+=============================
+
+### Import data 
+```{r, import.raw}
+raw<-read.csv("/Users/Teleak/Desktop/RCourse/DataAnalysis/AnalysisAssignment1/Rproject/WorkingData/loansData.csv")
+```
+### Some descriptives of the data frame 'raw.'
+```{r, describe.df}
+names(raw)
+```
+### Some munging -- making names easier to type
+```{r, rename.cols}
+new.names<-c('requested', 'loaned', 'interest', 'length', 'purpose', 'debts', 'state', 'home', 'income', 'fico', 'o.credit', 'r.credit', 'inquiries', 'employed')
+old.names<-names(raw)
+(names.convert<-as.data.frame(cbind(old.names, new.names)))
+data<-raw
+names(data)<-new.names
+names(data)
+```
+### Some more data description with easier names (helps avoid confusion later)
+```{r, describeII}
+dim(data)
+str(data)
+head(data, n=5)
+apply(data, 2, function(col) length(which(is.na(col)))) ### shows count of NA values by column
+apply(data, 2, function(col) length(which(col == ""))) ### shows count of blank values by column
+(has.na<-data[!(complete.cases(data)),]) ### rows with NA data 
+```
+
+### Some deeper description 
+```{r, describeIII,}
+sapply(data[ ,c(1, 2, 9, 11:13)], summary, na.rm=TRUE)
+```

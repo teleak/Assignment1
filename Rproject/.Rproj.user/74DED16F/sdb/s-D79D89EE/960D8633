@@ -1,0 +1,16 @@
+{
+    "contents" : "Master Notes for Data Analysis Class\n========================================================\n****\n## Assignment due date: February 16 EST\n****\n#### Directories\n```{r, echo=TRUE}\nData<-(\"/Users/Teleak/Desktop/RCourse/DataAnalysis/AnalysisAssignment1/Rproject/WorkingData\")\nDescription<-(\"/Users/Teleak/Desktop/RCourse/DataAnalysis/AnalysisAssignment1/Rproject/Description\")\nExplore<-(\"/Users/Teleak/Desktop/RCourse/DataAnalysis/AnalysisAssignment1/Rproject/Explore\")\nGraphs<-(\"/Users/Teleak/Desktop/RCourse/DataAnalysis/AnalysisAssignment1/Rproject/Graphs\")\nMunging<-(\"/Users/Teleak/Desktop/RCourse/DataAnalysis/AnalysisAssignment1/Rproject/Munging\")\nNotes<-(\"/Users/Teleak/Desktop/RCourse/DataAnalysis/AnalysisAssignment1/Rproject/Notes\")\nReports<-(\"/Users/Teleak/Desktop/RCourse/DataAnalysis/AnalysisAssignment1/Rproject/Reports\")\nTests<-(\"/Users/Teleak/Desktop/RCourse/DataAnalysis/AnalysisAssignment1/Rproject/Tests\")\n```\n```{r, downloaded}\ndownloaded<-date() ###\"Sun Feb  3 20:25:46 2013\"\ndownloaded\n```",
+    "created" : 1359953006997.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2300975623",
+    "id" : "960D8633",
+    "lastKnownWriteTime" : 1359955604,
+    "path" : "~/Desktop/RCourse/DataAnalysis/AnalysisAssignment1/Rproject/Notes/project.master.notes.rmd",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_markdown"
+}
