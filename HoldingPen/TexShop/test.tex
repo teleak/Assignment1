@@ -1,0 +1,13 @@
+\documentclass[11pt]{report}
+\usepackage{datetime}
+\renewcommand{\dateseparator}{.}
+\newdateformat{mydate}{\THEDAY \monthname[\THEMONTH] \THEYEAR}
+\begin{document}
+
+\title{Title Here}
+\author{James Warner}
+\date{\mydate\today}
+\maketitle
+
+
+\end{document}

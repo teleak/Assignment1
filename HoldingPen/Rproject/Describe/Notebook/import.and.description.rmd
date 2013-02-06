@@ -1,0 +1,57 @@
+Data Import and Description 
+=============================
+
+### Import data 
+```{r, import.raw}
+raw<-read.csv("/Users/Teleak/Desktop/RCourse/DataAnalysis/AnalysisAssignment1/Rproject/WorkingData/loansData.csv")
+```
+### Some descriptives of the data frame 'raw.'
+```{r, describe.df}
+names(raw)
+```
+### Some munging -- making names easier to type
+```{r, rename.cols}
+new.names<-c('requested', 'loaned', 'interest', 'length', 'purpose', 'debts', 'state', 'home', 'income', 'fico', 'o.credit', 'r.credit', 'inquiries', 'employed')
+old.names<-names(raw)
+(names.convert<-as.data.frame(cbind(old.names, new.names)))
+data<-raw
+names(data)<-new.names
+names(data)
+```
+### Some more data description with easier names (helps avoid confusion later)
+```{r, describeII}
+dim(data)
+str(data)
+head(data, n=5)
+apply(data, 2, function(col) length(which(is.na(col)))) ### shows count of NA values by column
+apply(data, 2, function(col) length(which(col == ""))) ### shows count of blank values by column
+(has.na<-data[!(complete.cases(data)),]) ### rows with NA data 
+```
+### clean percent signs from interest and debt columns; months from length column
+```{r, cleaning.cols}
+### some cleanup
+data$interest<-as.numeric(sub("%", "", data$interest)) ### remove percent sign on interest
+data$debts<-as.numeric(sub("%", "", data$debts)) ### remove percent sign on interest
+data$length<-as.numeric(sub(" months", "", data$length)) ### strip "months" text off of months column
+```
+
+### looking at quantitative qualitative data summaries
+```{r, colsummaries}
+sapply(data[ ,c(1:3, 6, 9, 11:13)], summary, na.rm=TRUE)
+sapply(data[ , c(4, 5, 7, 8, 10, 14)], unique)
+```
+### two cleaned data sets
+
+#### loans = data with NAs removed, df 'data' (kept NA values)
+```{r, na.rm}
+nrow(has.na) ### number of rows with NA values
+loans<-data[(complete.cases(data)),] ### rows with NA values removed
+```
+
+
+
+#### write out data to file
+```{r}
+write.csv(loans, '~/Desktop/RCourse/DataAnalysis/AnalysisAssignment1/Rproject/ProcessedData/Working/loans.csv')
+write.csv(data, '~/Desktop/RCourse/DataAnalysis/AnalysisAssignment1/Rproject/ProcessedData/Working/data.csv')
+```

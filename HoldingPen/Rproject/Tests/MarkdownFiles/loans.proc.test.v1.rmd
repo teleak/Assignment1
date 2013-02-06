@@ -1,0 +1,105 @@
+R loans markdown tests
+========================================================
+#### Load required libraries
+```{r, libraries,results='hide', message=FALSE}
+require(plyr)
+require(Hmisc)
+require(lattice)
+require(RColorBrewer)
+require(hexbin)
+```
+
+### read in preprocessed data 
+```{r}
+loans<-read.csv( '~/Desktop/RCourse/DataAnalysis/AnalysisAssignment1/Rproject/ProcessedData/Working/loans.csv')
+data<-read.csv('~/Desktop/RCourse/DataAnalysis/AnalysisAssignment1/Rproject/ProcessedData/Working/data.csv')
+```
+
+### dimensions of data
+```{r}
+dim(loans)
+dim(data)
+```
+### Describe loans -- noticed that summary doesn't show loan amount of -0.01 in two rows. 
+```{r}
+summary(loans)
+range(loans$loaned)
+subset(loans, loaned == -0.01)
+```
+
+### dropping rows from loaned that show loan amount < 0 (assuming this must be error)
+```{r}
+min(loans$loaned)
+loans<-loans[loans$loaned >= 0,]
+min(loans$loaned)
+```
+
+### Break income down into ranges
+```{r}
+attach(loans)
+	range(income)
+	inc.low<-floor(min(income))
+	inc.high<-ceiling(max(income))
+######## add  log income 2 as factor 
+	log.income<-log2(loans$income)
+ 	l.inc.low<-min(log.income) ### min of log income
+	l.inc.high<-max(log.income)
+	income.groups2<-cut2(log.income, seq(l.inc.low, l.inc.high, by=1))
+	loans$log2.inc.range<-as.factor(income.groups2)
+	head(loans)
+### income to debt range as factor
+	head(loans)
+	range(debts)
+	debt.range<-cut2(debts, seq(min(debts), max(debts), by=5))
+	loans$debt.range<-as.factor(debt.range)
+	table(debt.range)
+### sample loans
+	set.seed(1234)
+	nrow(loans)
+	train.indicator<-rbinom(nrow(loans), size=1, prob=0.5)
+	table(train.indicator)
+	loans$train.indicator<-as.factor(train.indicator)
+	training.loans<-loans[train.indicator ==1, ]
+detach(loans)
+```
+
+### Some exploratory
+```{r}
+attach(loans)
+	hist(loaned, breaks=100
+		,main="Amount Loaned"
+		,col="orange")
+	hist(log10(requested))
+	plot(loaned~log10(income))
+	boxplot(loaned ~ income) ### not very informative
+	histogram(~loaned | log2.inc.range,
+			main="Loan amount by Log(2) Income Range")
+	histogram(~loaned | debt.range,
+			main="Loan amount by Debt to Income Ratio")
+	req.int<-hexbin(requested, interest)
+	plot(req.int)
+	plot(requested, loaned, cex=(income/1000)*.2)
+### lets try a bubble chart
+	symbols(requested, loaned, circles=income/500)
+	## size circles area=pi*r^2, r=root(pi*r^2)
+	radius <- sqrt(income/pi)
+	symbols(requested, loaned, 
+		   circles=radius, 
+		   inches=0.2,
+		   fg="white",
+		   bg=(col=log2.inc.range)
+		   )
+detach(loans)
+### too busy sample (above) and try with debts as a factor
+attach(training.loans)
+	symbols(requested, debts, circles=income/500)
+	## size circles area=pi*r^2, r=root(pi*r^2)
+	radius <- sqrt(income/pi)
+	symbols(requested, debts, 
+		   circles=radius, 
+		   inches=0.2,
+		   fg="white",
+		   bg=(col=log2.inc.range)
+		   )
+detach(training.loans)
+```
